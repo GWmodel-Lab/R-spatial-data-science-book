@@ -1,0 +1,8 @@
+commit
+```
+RS-R-date-event
+```
+date: 当日日期
+event: 
+	update: 日常更新
+	delete: 删除内容
