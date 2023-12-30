@@ -16,18 +16,19 @@
             }
           },
           {
-            "id": "5afc0f3511eb8756",
+            "id": "e1e077af8b158c23",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Chap1/R语言基础编程语法.md",
+                "file": "Chap2/基础数据操作与处理.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -77,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 269.5
+    "width": 200
   },
   "right": {
     "id": "41271de4d0421fed",
@@ -93,6 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Chap2/基础数据操作与处理.md",
                 "collapseAll": true,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -109,6 +111,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Chap2/基础数据操作与处理.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -130,7 +133,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "Chap2/基础数据操作与处理.md"
+              }
             }
           }
         ],
@@ -138,7 +143,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 327.5
+    "width": 200
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -150,16 +155,19 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "e31d1e50e3986ec5",
+  "active": "e1e077af8b158c23",
   "lastOpenFiles": [
+    "Chap2/基础数据读写.md",
+    "Chap2/基础数据文件存储.md",
+    "Chap2/章节R函数包准备.md",
+    "Chap2/基础数据操作与处理.md",
+    "Chap2/SUMMARY of Chap2.md",
     "R语言空间数据处理与分析实践教程.md",
     "Chap1/数据类型.md",
-    "Chap1/R语言基础编程语法.md",
     "Chap1/变量及运算符号.md",
+    "Chap1/R语言基础编程语法.md",
     "Chap1/SUMMARY of Chap1.md",
-    "Chap2/SUMMARY of Chap2.md",
     "未命名.md",
-    "Chap2/未命名.md",
     "index.md",
     "未命名.canvas",
     "Chap2",
