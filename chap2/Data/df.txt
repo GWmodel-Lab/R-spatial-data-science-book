@@ -1,0 +1,6 @@
+x,y,z
+1,A,TRUE
+*,B,FALSE
+2,C,TRUE
+3,*,TRUE
+*,D,*
