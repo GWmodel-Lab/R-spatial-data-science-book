@@ -1,0 +1,172 @@
+{
+  "main": {
+    "id": "036270ec62f1a90a",
+    "type": "split",
+    "children": [
+      {
+        "id": "08d1a20e2be15fba",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a6c3e10a2acc40ac",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Chap4/2. ggplot2 基础语法.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "b922d1ca33ebfec5",
+    "type": "split",
+    "children": [
+      {
+        "id": "51a64e089b6161c7",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c6e728b4f7922b62",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "5dee308fb2273b75",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "adf759dc21e68ade",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200
+  },
+  "right": {
+    "id": "41271de4d0421fed",
+    "type": "split",
+    "children": [
+      {
+        "id": "f0fc2c9594344b44",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8f15a54ec3000648",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Chap4/2. ggplot2 基础语法.md",
+                "collapseAll": true,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "249dd5a302b619a2",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Chap4/2. ggplot2 基础语法.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "2c8a80304b644c15",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "c0541010988a3a4b",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Chap4/2. ggplot2 基础语法.md"
+              }
+            }
+          }
+        ],
+        "currentTab": 3
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false
+    }
+  },
+  "active": "a6c3e10a2acc40ac",
+  "lastOpenFiles": [
+    "Chap4/3. ggplot2 图形示例.md",
+    "Chap4/2. ggplot2 基础语法.md",
+    "Pasted image 20240425221434.png",
+    "Chap4/1. 章节R函数包准备.md",
+    "Chap2/1. 章节R函数包准备.md",
+    "Chap4/4. 统计建模技术.md",
+    "Chap2/4. 基础数据文件存储.md",
+    "Chap1/3. 变量及运算符号.md",
+    "Chap2/2. 基础数据操作与处理.md",
+    "Chap4",
+    "Chap2/3. 基础数据读写.md",
+    "Chap2/SUMMARY of Chap2.md",
+    "Chap1/2. 数据类型.md",
+    "Chap1/SUMMARY of Chap1.md",
+    "Chap1/4. R语言基础编程语法.md",
+    "R语言空间数据处理与分析实践教程.md",
+    "index.md",
+    "未命名.canvas",
+    "Chap2",
+    "Chap1"
+  ]
+}

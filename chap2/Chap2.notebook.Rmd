@@ -1,0 +1,365 @@
+---
+title: "Chapter2_R Notebook"
+author: "WuKunpeng"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(conflicted)
+# conflicted 包可以将两个包冲突的函数进行报错, 以便使用正确的函数
+library(readxl)
+
+# 设置全局的工作目录
+knitr::opts_knit$set(root.dir = "C:/Users/Administrator/Desktop/R-spatial-data-science-book/chap2/Data")
+
+```
+
+值得注意的是路径中使用的是正斜杠 "/"
+若使用反斜杠 "\" 由于其在很多编程语言中被用作转义字符
+为了避免歧义, 有时需要在字符串中使用两个反斜杠来表示一个字面上的反斜杠, 如下
+可以在终端中输入这个命令行
+`setwd("C:\\Users\\Administrator\\Desktop\\R-spatial-data-science-book\\chap2\\Data")`
+但不要在下面的 chuck 中设置路径, 因为在某个 chunk 中的路径只会在那个 chunk 中工作
+工作目录会在该块运行结束时被重置, 这样可以更好地控制工作目录的变化
+
+```{r}
+# 基础数据读取
+# readr
+comp <- read_delim("comp.csv", ",")
+comp.csv <- read_csv("comp.csv")
+summary(comp.csv)
+spec(comp.csv)
+
+# readxl
+comp.xlsx <- read_xlsx("comp.xlsx")
+summary(comp.xlsx)
+```
+```{r}
+# 基础数据写入
+
+# 创建包含多列的数据框
+df <- data.frame(
+  x = c(1, NA, 2, 3, NA),
+  y = c("A", "B", "C", NA, "D"),
+  z = c(TRUE, FALSE, TRUE, TRUE, NA)
+)
+
+# 将数据框写入文本文件 "df.txt"，缺失值用 "*" 表示，分隔符为逗号
+write_delim(df, "df.txt", na = "*", delim = ",")
+
+# 将数据框写入 CSV 文件 "comp_w.csv"
+write_csv(df, "df.csv")
+```
+
+
+
+```{r}
+# 管道操作
+numbers <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+# 使用管道操作进行数据处理，包括转换为数据框、平方、筛选偶数、求和
+result <- numbers %>%
+  # 转换为数据框
+  as.data.frame() %>%
+  # 平方
+  dplyr::mutate(squared = .^2) %>%
+  # 筛选偶数
+  dplyr::filter(squared %% 2 == 0) %>%
+  # 求和
+  dplyr::summarise(sum = sum(squared))
+# 提取结果
+result <- result$sum
+```
+
+```{r}
+# 数据连接
+# 创建员工数据框
+employees_df <- tibble(
+  emp_id = c(101, 102, 103),
+  emp_name = c("Alice", "Bob", "Charlie"),
+  dept_id = c(1, 2, 1)
+)
+
+# 创建部门数据框
+departments_df <- tibble(
+  dept_id = c(1, 2, 3),
+  dept_name = c("HR", "Finance", "IT")
+)
+
+left_join_df <- left_join(employees_df, departments_df, by = "dept_id")
+
+right_join_df <- right_join(employees_df, departments_df, by = "dept_id")
+
+full_join_df <- full_join(employees_df, departments_df, by = "dept_id")
+
+inner_join_df <- inner_join(employees_df, departments_df, by = "dept_id")
+
+semi_join_df <- semi_join(employees_df, departments_df, by = "dept_id")
+
+anti_join_df <- anti_join(employees_df, departments_df, by = "dept_id")
+```
+
+```{r}
+# 数据重塑
+
+# 长宽表转换
+# 创建一个不整洁的数据框
+messy_data <- tibble(
+  subject = c("S1", "S2", "S3"),
+  test1_score = c(80, 90, 85),
+  test2_score = c(88, 92, 84)
+)
+
+# 宽表变长表
+long_data <- messy_data %>%
+  pivot_longer(
+    cols = starts_with("test"),
+    names_to = "test",
+    values_to = "score"
+  )
+
+# 长表变宽表
+wide_data <- long_data %>%
+  pivot_wider(
+    names_from = test,
+    values_from = score
+  )
+
+# 拆分列与合并列
+# 创建一个数据框
+original_data <- tibble(
+  subject = c("S1", "S2", "S3"),
+  score = c("80-88", "90-92", "85-84")
+)
+
+# 拆分列
+separated_data <- original_data %>%
+  separate(col = score, into = c("test1_score", "test2_score"), sep = "-")
+
+# 合并列
+united_data <- separated_data %>%
+  unite(col = "combined_score", c("test1_score", "test2_score"), sep = "-")
+
+```
+
+```{r}
+# 数据提取
+
+# 从数据框 comp 中选择第二行第三列的元素
+element_2_3 <- comp[2, 3]
+element_2_3
+
+# 从数据框 comp 中选择第二行 'Dame' 列的元素
+element_2_Dame <- comp[2, 'Dame']
+element_2_Dame
+
+# 使用 dplyr 包中的 select 函数，选择数据框 comp 中的 'Dame' 列
+selected_dame_column <- dplyr::select(comp, Dame)
+selected_dame_column
+
+# 使用 dplyr 包中的 filter 函数，筛选出数据框 comp 中 'Dame' 列中值为0的行
+filtered_rows_dame_0 <- dplyr::filter(comp, Dame == 0)
+filtered_rows_dame_0
+```
+
+```{r}
+# 准备数据
+set.seed(123)
+data <- tibble(
+  id = 1:10,
+  age = sample(18:60, 10, replace = TRUE),
+  salary = sample(30000:80000, 10, replace = TRUE),
+  department = sample(c("HR", "IT", "Finance", "Marketing"), 10, replace = TRUE),
+  start_date = sample(seq(as.Date('2010-01-01'), as.Date('2020-01-01'), by="day"), 10),
+  score = round(runif(10, 1, 10), 0),
+  bonus = c(NA, runif(9, 500, 2000)),
+  hours_worked = c(40, 35, NA, 45, 50, 38, 42, 47, 33, NA),
+  region = sample(c("North", "South", "East", "West"), 10, replace = TRUE),
+  performance = c(rnorm(8), -5, 15)
+)
+
+# 选择列
+selected_data <- data %>%
+  select(id, age, salary, department)
+
+# 筛选行
+filtered_data <- data %>%
+  dplyr::filter(age > 30, salary > 50000)
+
+# 对行进行排序
+arranged_data <- data %>%
+  arrange(salary)
+
+# 修改列或创建新列
+mutated_data <- data %>%
+  mutate(salary_per_hour = salary / hours_worked)
+
+# 汇总
+summarized_data <- data %>%
+  group_by(department) %>%
+  summarize(average_salary = mean(salary, na.rm = TRUE))
+
+```
+
+```{r}
+# 缺失值 异常值处理
+# 处理缺失值：移除含有缺失值的行
+data_no_missing <- data %>%
+  dplyr::filter(complete.cases(.))
+
+# 或者填充缺失值：以均值填充工作小时数的缺失值和奖金
+data_filled <- data %>%
+  mutate(
+    hours_worked = ifelse(is.na(hours_worked), mean(hours_worked, na.rm = TRUE), hours_worked),
+    bonus = ifelse(is.na(bonus), mean(bonus, na.rm = TRUE), bonus)
+  )
+
+# 处理异常值：识别并移除异常值
+# 例如，我们假设 performance 应该在正常范围内，例如 -3 到 3
+data_no_outliers <- data %>%
+  dplyr::filter(performance >= -3 & performance <= 3)
+
+# 或者替换异常值：用中位数替换异常的 performance 值
+median_performance <- median(data$performance, na.rm = TRUE)
+data_replace_outliers <- data %>%
+  mutate(performance = ifelse(performance < -3 | performance > 3, median_performance, performance))
+```
+
+```{r}
+# 整体管道流程示例
+# 整合管道操作：填充缺失值，识别但不移除异常值，标记异常值
+data_processed_exp <- data %>%
+  # 填充缺失值
+  mutate(
+    hours_worked = ifelse(is.na(hours_worked), mean(hours_worked, na.rm = TRUE), hours_worked),
+    bonus = ifelse(is.na(bonus), mean(bonus, na.rm = TRUE), bonus)
+  ) %>%
+  # 标记异常值（不移除）
+  mutate(
+    performance_error = ifelse(performance < -3 | performance > 3, TRUE, FALSE)
+  )
+```
+
+```{r}
+# 非关系型数据
+# 创建一个数据框
+person_df <- tibble(
+  name = c("Ken", "James", "Penny"),
+  age = c(24, 25, 24),
+  interest = list(c("reading", "music", "movies"),
+                  c("sports", "music"),
+                  c("movies", "reading")),
+  lang = list(list(r = 2, csharp = 4, python = 3),
+              list(r = 3, java = 2, cpp = 5),
+              list(r = 1, cpp = 4, python = 2))
+)
+
+# 查看数据框结构
+print(str(person_df))
+
+# 映射年龄列
+person_df %>%
+  mutate(age_list = map(age, ~ .x)) %>%
+  select(age_list)
+
+# 映射语言名称
+person_df %>%
+  mutate(lang_names = map(lang, names)) %>%
+  select(lang_names)
+
+# 过滤年龄大于等于25的人
+p_age25 <- person_df %>%
+  dplyr::filter(age >= 25)
+print(str(p_age25))
+
+# 过滤Python等级大于等于3的人
+p_py3 <- person_df %>%
+  dplyr::filter(purrr::map_lgl(lang, ~ ifelse("python" %in% names(.x), .x$python >= 3, FALSE)))
+print(str(p_py3))
+```
+
+```{r}
+# 关系型数据
+# 创建人员信息数据框
+people_df <- tibble(
+  person_id = c(1, 2, 3),
+  name = c("Ken", "James", "Penny"),
+  age = c(24, 25, 24)
+)
+
+# 创建语言技能数据框
+languages_df <- tibble(
+  person_id = c(1, 1, 2, 2, 3, 3),
+  language = c("R", "C#", "R", "Java", "C++", "Python"),
+  skill_level = c(2, 4, 3, 2, 4, 2)
+)
+
+# 查看人员信息数据框结构
+print(str(people_df))
+
+# 查看语言技能数据框结构
+print(str(languages_df))
+
+# 关联（连接）两个数据框
+joined_df <- left_join(people_df, languages_df, by = "person_id")
+
+# 查看合并后的数据框结构
+print(str(joined_df))
+
+# 过滤特定条件的记录（例如，年龄大于24）
+filtered_df <- joined_df %>%
+  dplyr::filter(age > 24)
+print(str(filtered_df))
+
+# 汇总数据（例如，计算每个人掌握的语言数量）
+summarized_df <- joined_df %>%
+  group_by(name) %>%
+  summarize(number_of_languages = n())
+print(str(summarized_df))
+
+# 转换长格式为宽格式
+wide_df <- joined_df %>%
+  pivot_wider(
+    names_from = language,
+    values_from = skill_level,
+    values_fill = list(skill_level = 0)
+  )
+print(str(wide_df))
+ 
+```
+
+```{r}
+library(lubridate)
+
+# 创建时间点
+begin1 <- ymd_hms("2015-09-03 12:00:00")
+end1 <- ymd_hms("2016-08-04 12:30:00")
+begin2 <- ymd_hms("2015-12-03 12:00:00")
+end2 <- ymd_hms("2016-09-04 12:30:00")
+
+# 创建时间间隔
+date_1 <- interval(begin1, end1)
+date_2 <- interval(begin2, end2)
+
+# 检查时间间隔是否重叠
+overlap <- int_overlaps(date_1, date_2)
+
+# 输出时间间隔和重叠情况
+print(date_1)
+print(date_2)
+print(overlap)
+
+# 示例：提取日期组件
+year(begin1) # 提取年份
+month(end2) # 提取月份
+
+# 示例：日期加减
+one_week_later <- begin1 + weeks(1) # 在 begin1 上加一周
+day_before_end2 <- end2 - days(1) # 在 end2 前减去一天
+
+# 输出日期加减的结果
+print(one_week_later)
+print(day_before_end2)
+```
+
+

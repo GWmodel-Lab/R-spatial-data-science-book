@@ -1,0 +1,262 @@
+---
+title: "chap4"
+author: "Wukunpeng"
+date: "2024-04-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+```{r}
+# 这里使用的是 ggplot2 自带的数据集
+ggplot(mpg, aes(displ, hwy, colour = class)) + 
+  geom_point()
+```
+
+```{r}
+summary(mpg)
+head(mpg)
+```
+
+```{r}
+ggplot(data = mpg)
+```
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv))
+```
+
+
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy,color = drv))
+```
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) + geom_point(aes(colour = "blue"))
+ggplot(mpg, aes(displ, hwy)) + geom_point(colour = "blue")
+```
+
+```{r}
+ggplot(mpg, aes(displ, hwy, color = drv)) + 
+  geom_point() + 
+  geom_smooth()
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = drv)) +
+  geom_smooth()
+```
+
+```{r}
+ggplot(mpg, aes(cty, hwy)) + 
+  geom_point()
+
+ggplot(diamonds, aes(carat, price)) +
+  geom_point()
+
+ggplot(economics, aes(date, unemploy)) + 
+  geom_line()
+
+ggplot(mpg, aes(cty)) + 
+  geom_histogram()
+
+ggplot(mpg, aes(model, manufacturer)) + 
+  geom_point()
+```
+
+
+```{r}
+library(gridExtra)
+
+# 创建每个图形
+plot1 <- ggplot(mpg, aes(cty, hwy)) + geom_point()
+plot2 <- ggplot(diamonds, aes(carat, price)) + geom_point()
+plot3 <- ggplot(economics, aes(date, unemploy)) + geom_line()
+plot4 <- ggplot(mpg, aes(cty)) + geom_histogram()
+
+# 将图形组合在一起
+grid.arrange(plot1, plot2, plot3, plot4, ncol = 2)
+```
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point() +
+  scale_y_continuous(breaks = seq(15, 40, by = 10), 
+                     labels = c(" 一五"," 二五"," 三五"))
+```
+
+```{r}
+ggplot(mpg, aes(cty, hwy)) +
+  geom_point() +
+  scale_x_continuous(breaks = seq(10, 30, 5), labels = c("10", "15", "20", "25", "30")) +
+  scale_y_continuous(breaks = seq(10, 40, 10), labels = c("10", "20", "30", "40"))
+```
+ 
+```{r}
+# 使用 mpg 数据集，修改 x 轴和 y 轴标签，图例名为 "Class"，图例位置在右下角
+ggplot(mpg, aes(displ, hwy, color = class)) +
+  geom_point() +
+  labs(x = "Engine Displacement (L)", y = "Highway MPG", color = "Class") +
+  theme(legend.position = "top")
+```
+ 
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point() +
+  scale_x_continuous(limits = c(3, 6)) +
+  scale_y_continuous(limits = c(10, 50))
+
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point() +
+  coord_cartesian(xlim = c(3, 6), ylim = c(10, 50))
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point() +
+  xlim(3, 6) +
+  ylim(10, 50)
+```
+ 
+```{r}
+library(gridExtra)
+
+# 使用diamonds数据集，对x轴进行对数变换，并进行对比
+p1 <- ggplot(diamonds, aes(carat, price)) +
+  geom_point()
+
+p2 <- ggplot(diamonds, aes(carat, price)) +
+  geom_point() +
+  scale_x_log10()
+
+ggplot(diamonds, aes(carat, price)) +
+  geom_point() +
+  scale_y_sqrt() +
+  scale_y_log10()
+
+ggplot(diamonds, aes(carat, price)) +
+  geom_point() +
+  scale_x_sqrt() +
+  scale_y_sqrt()
+
+grid.arrange(p1, p2, ncol=2)
+```
+ 
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = drv)) +
+  geom_smooth(se = FALSE) +
+  labs(title = "轿车燃油消耗量与引擎体量的关系图",
+  subtitle = "数据来源：fueleconomy.gov",
+  caption = "制图时间：2024-05-02")
+```
+ 
+```{r}
+# 使用 mpg 数据集，使用离散变量 drv 设置 color 的颜色
+p1 <- ggplot(mpg, aes(displ, hwy, color = drv)) +
+  geom_point() +
+  scale_color_manual(values = c("red", "blue", "green"))
+
+# 使用 mpg 数据集，使用连续变量 displ 设置 fill 和 color 的颜色
+p2 <-ggplot(mpg, aes(displ, hwy, fill = displ, color = displ)) +
+  geom_point() +
+  scale_fill_continuous(low = "blue", high = "red") +
+  scale_color_continuous(low = "blue", high = "red")
+
+grid.arrange(p1,p2)
+```
+ 
+```{r}
+# 使用 stat_summary() 创建一张箱线图
+p = ggplot(mpg, aes(x = class, y = hwy)) +
+  geom_boxplot() +
+  stat_summary(fun = median, geom = "point", shape = 18, size = 3)
+
+# 使用 geom_tile() 创建热力图，展示两个变量之间的关系
+pp = ggplot(mpg, aes(x = manufacturer, y = class)) +
+  geom_tile(aes(fill = hwy))
+
+# 使用 geom_bar() 创建一张柱状图
+ppp = ggplot(mpg, aes(x = manufacturer)) +
+  geom_bar()
+
+# 使用 geom_violin() 创建小提琴图，展示数据的分布密度和离群值
+pppp = ggplot(mpg, aes(x = manufacturer, y = hwy)) +
+  geom_violin()
+
+grid.arrange(p,pp,ppp,pppp,ncol=2)
+
+ggplot(mpg, aes(x = cty)) +
+  geom_density()
+
+# 使用 geom_tile() 创建热力图，展示两个变量之间的关系
+ggplot(mpg, aes(x = manufacturer, y = class)) +
+  geom_tile(aes(fill = hwy)) + 
+  coord_flip()
+```
+ 
+```{r}
+ggplot(mpg, aes(x = manufacturer, y = hwy)) +
+  geom_boxplot() +
+  coord_flip()
+
+ggplot(mpg, aes(x = manufacturer)) +
+  geom_bar() +
+  coord_polar()
+```
+ 
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point(position = position_jitter(width = 0.1, height = 0.1))
+
+ggplot(mpg, aes(x = manufacturer, fill = class)) +
+  geom_bar(position = position_dodge())
+```
+ 
+```{r}
+ggplot(mpg, aes(x = cty, y = hwy)) +
+  geom_point() +
+  facet_wrap(~ class, nrow = 2)
+
+ggplot(mpg, aes(x = cty, y = hwy)) +
+  geom_point() +
+  facet_grid(drv ~ class)
+
+```
+ 
+```{r}
+
+# 使用 theme_gray() 主题
+p <- ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point() +
+  theme_gray() +
+  ggtitle("theme_gray()")
+
+# 使用 theme_bw() 主题
+pp <- ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point() +
+  theme_bw() +
+  ggtitle("theme_bw()")
+
+# 使用 theme_minimal() 主题
+ppp <- ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point() +
+  theme_minimal() +
+  ggtitle("theme_minimal()")
+
+# 使用 theme_classic() 主题
+pppp <- ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point() +
+  theme_classic() +
+  ggtitle("theme_classic()")
+
+grid.arrange(p, pp, ppp, pppp, ncol = 2)
+```
+ 
+```{r}
+
+```
+ 
+ 
